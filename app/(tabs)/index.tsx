@@ -6,9 +6,11 @@ import EmojiPicker from "@/components/emoji-picker";
 import EmojiSticker from "@/components/emoji-sticker";
 import IconButton from "@/components/icon-button";
 import ImageViewer from "@/components/image-viewer";
+import { DEFAULT_BORDER_COLOR } from "@/constants/style";
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
-import { StyleSheet, View } from "react-native";
+import { ImageSourcePropType, StyleSheet, View } from "react-native";
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import PlaceholderImage = require('@/assets/images/background-image.png');
 
@@ -53,12 +55,10 @@ export default function Index() {
   };
   
   return (
-    <View
-      style={styles.container}
-    >
+    <GestureHandlerRootView style={styles.container}>
        <View style={styles.imageContainer}>
         <ImageViewer imgSource={PlaceholderImage} selectedImage={selectedImage} />
-          {pickedEmoji && <EmojiSticker imageSize={40} stickerSource={pickedEmoji} />}
+          {pickedEmoji && <EmojiSticker imageSize={100} stickerSource={pickedEmoji} />}
       </View>
 
        {showAppOptions ? (
@@ -74,22 +74,28 @@ export default function Index() {
         <Button theme="primary" label="Choose a photo" onPress={pickImageAsync}/>
         <Button label="Use this photo" onPress={() => setShowAppOptions(true)} />
       </View>
-      )}
+        )}
       <EmojiPicker isVisible={isModalVisible} onClose={onModalClose}>
         <EmojiList onSelect={setPickedEmoji} onCloseModal={onModalClose} />
       </EmojiPicker>
-    </View>
+    </GestureHandlerRootView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#25292e',
+    backgroundColor: "#25292e",
     alignItems: 'center',
+    
+      borderWidth: 4,
+    borderColor: DEFAULT_BORDER_COLOR,
   },
   imageContainer: {
-    flex: 1,
+    // flex: 1,
+
+    borderWidth: 4,
+    borderColor: DEFAULT_BORDER_COLOR,
   },
   image: {
     width: 320,
@@ -103,6 +109,9 @@ const styles = StyleSheet.create({
   optionsContainer: {
     position: 'absolute',
     bottom: 80,
+
+      borderWidth: 4,
+    borderColor: DEFAULT_BORDER_COLOR,
   },
   optionsRow: {
     alignItems: 'center',

@@ -37,6 +37,13 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "73e15266-8d95-4f49-aa00-1a01b50562f7"
+      }
+    },
+    "owner": "sumerwamer"
   }
 }

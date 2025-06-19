@@ -7,10 +7,11 @@ import EmojiSticker from "@/components/emoji-sticker";
 import IconButton from "@/components/icon-button";
 import ImageViewer from "@/components/image-viewer";
 import { DEFAULT_BORDER_COLOR } from "@/constants/style";
+import domtoimage from 'dom-to-image';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 import { useRef, useState } from 'react';
-import { ImageSourcePropType, StyleSheet, View } from "react-native";
+import { ImageSourcePropType, Platform, StyleSheet, View } from "react-native";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { captureRef } from 'react-native-view-shot';
 
@@ -61,6 +62,7 @@ export default function Index() {
 
 
   const onSaveImageAsync = async () => {
+     if (Platform.OS !== 'web') {
     try {
       const localUri = await captureRef(imageRef, {
         height: 440,
@@ -74,6 +76,22 @@ export default function Index() {
     } catch (e) {
       console.log(e);
     }
+  }else {
+     try {
+        const dataUrl = await domtoimage.toJpeg(imageRef.current, {
+          quality: 0.95,
+          width: 320,
+          height: 440,
+        });
+
+        let link = document.createElement('a');
+        link.download = 'sticker-smash.jpeg';
+        link.href = dataUrl;
+        link.click();
+      } catch (e) {
+        console.log(e);
+      }
+  }
   };
   
   return (
